@@ -8,19 +8,10 @@ generator client {
 }
 
 model User {
-  id        String   @id
-  email     String
-  name      String
-  createdAt DateTime
-  tasks     Task[]
+  id    String  @id @default(uuid())
+  email String  @unique
+  name  String?
+  // 他のフィールドやリレーションをここに追加
 }
 
-model Task {
-  id        String   @id
-  label     String
-  done      Boolean
-  imageKey  String?
-  createdAt DateTime
-  User      User     @relation(fields: [userId], references: [id])
-  userId    String
-}
+// 他のモデルをここに追加
