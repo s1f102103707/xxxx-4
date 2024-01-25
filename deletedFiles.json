@@ -1,1 +1,6 @@
-[]
+[
+  {
+    "source": "server/api/@types/models.ts",
+    "content": "export type UserModel = {\n  id: string;\n  email: string;\n  name: string;\n  createdTime: number;\n};\n\nexport type TaskModel = {\n  id: string;\n  label: string;\n  done: boolean;\n  createdTime: number;\n  image: { url: string; s3Key: string } | undefined;\n  author: { userId: string; name: string };\n};\n"
+  }
+]

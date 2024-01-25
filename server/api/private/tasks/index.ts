@@ -1,30 +1,25 @@
-import type { TaskModel } from '$/api/@types/models';
-import type { DefineMethods } from 'aspida';
-
-export type Methods = DefineMethods<{
+/* eslint-disable */
+export type Methods = {
+  /** Creates a new task with the given details. */
   post: {
-    reqFormat: FormData;
-    reqBody: {
-      label: string;
-      image?: Blob;
-    };
-    resBody: TaskModel;
-  };
+    status: 201
 
-  patch: {
-    reqBody: {
-      taskId: string;
-      done: boolean;
-      label: string;
-    };
-    status: 204;
-    resBody: TaskModel;
-  };
+    /** Task created successfully */
+    resBody: {
+      /** Unique identifier for the created task */
+      id: string
+      /** Title of the created task */
+      title: string
+      /** Content of the created task */
+      content: string
+    }
 
-  delete: {
+    /** Task data to create a new task */
     reqBody: {
-      taskId: string;
-    };
-    status: 204;
-  };
-}>;
+      /** Title of the task */
+      title: string
+      /** Content of the task */
+      content: string
+    }
+  }
+}
