@@ -12,17 +12,18 @@ export const AuthLoader = () => {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (_, session) => {
-      if (session === null && user?.id !== null) {
+      if (session === null && user && user.id !== null) {
         await apiClient.api.private.users._userId(user.id).$delete().catch(returnNull);
         setUser(null);
-      } else if (session !== null && user?.id !== session.user.id) {
-        await apiClient.api.private.users._userId(session.user.id).$put({ body: { email: session.user.email } }).catch(returnNull);
-        setUser({ id: session.user.id, email: session.user.email, name: session.user.user_metadata.full_name });
+      } else if (session !== null && (!user || user.id !== session.user.id)) {
+        const email = session.user.email ?? '';
+        await apiClient.api.private.users._userId(session.user.id).$put({ body: { email } }).catch(returnNull);
+        setUser({ id: session.user.id, email, name: session.user.user_metadata.full_name });
       }
     });
 
     return () => subscription.unsubscribe();
-  }, [user?.id, setUser]);
+  }, [user, setUser]);
 
   return <></>;
 };

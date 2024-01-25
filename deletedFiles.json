@@ -92,10 +92,6 @@
     "content": ".container {\n  position: fixed;\n  top: 0;\n  left: 0;\n  z-index: 10;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 100%;\n  height: 100%;\n}\n\n.background {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: #333a;\n}\n\n.card {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  max-width: 90vw;\n  max-height: calc(100% - 80px);\n  overflow: hidden;\n  background: white;\n  border-radius: 8px;\n}\n\n.header {\n  padding: 16px 16px 12px;\n  font-weight: bold;\n  border-bottom: 1px solid #d8d8d8;\n}\n\n.body {\n  flex: 1;\n  padding: 24px;\n  overflow: auto;\n}\n"
   },
   {
-    "source": "client/src/components/Modal/Modal.tsx",
-    "content": "import type { PropsWithChildren } from 'react';\nimport React from 'react';\nimport { Portal } from '../Portal';\nimport styles from './Modal.module.css';\n\nexport const ModalHeader = (props: { text: string }) => {\n  return <div className={styles.header}>{props.text}</div>;\n};\n\nexport const ModalBody = (props: { children: React.ReactNode }) => {\n  return <div className={styles.body}>{props.children}</div>;\n};\n\nexport const Modal = (props: PropsWithChildren<{ open: boolean; onClose?: () => void }>) => {\n  return (\n    <Portal>\n      {props.open && (\n        <div className={styles.container}>\n          <div className={styles.background} onClick={props.onClose} />\n          <div className={styles.card}>{props.children}</div>\n        </div>\n      )}\n    </Portal>\n  );\n};\n"
-  },
-  {
     "source": "client/src/components/Portal.ts",
     "content": "import type { ReactNode } from 'react';\nimport { useEffect, useState } from 'react';\nimport ReactDOM from 'react-dom';\n\nexport const Portal = ({ children }: { children: ReactNode }) => {\n  const [el, setEl] = useState<HTMLDivElement>();\n\n  useEffect(() => {\n    const el = document.createElement('div');\n    document.body.appendChild(el);\n    setEl(el);\n\n    return () => {\n      document.body.removeChild(el);\n    };\n  }, []);\n\n  return el ? ReactDOM.createPortal(children, el) : null;\n};\n"
   },
