@@ -8,10 +8,38 @@ generator client {
 }
 
 model User {
-  id    String  @id @default(uuid())
-  email String  @unique
-  name  String?
-  // 他のフィールドやリレーションをここに追加
+  id       String     @id @default(uuid())
+  email    String     @unique
+  name     String
+  events   Event[]
+  Calendar Calendar[]
+  Attendee Attendee[]
 }
 
-// 他のモデルをここに追加
+model Event {
+  id         String     @id @default(uuid())
+  title      String
+  content    String?
+  start      DateTime
+  end        DateTime
+  calendarId String
+  calendar   Calendar   @relation(fields: [calendarId], references: [id])
+  attendees  Attendee[]
+  User       User?      @relation(fields: [userId], references: [id])
+  userId     String?
+}
+
+model Calendar {
+  id     String  @id @default(uuid())
+  userId String
+  user   User    @relation(fields: [userId], references: [id])
+  events Event[]
+}
+
+model Attendee {
+  id      String @id @default(uuid())
+  userId  String
+  eventId String
+  user    User   @relation(fields: [userId], references: [id])
+  event   Event  @relation(fields: [eventId], references: [id])
+}
