@@ -1,4 +1,4 @@
-import type { UserModel } from '$/api/@types/models';
+import type { UserModel } from '$/api/@types';
 import type { JwtUser } from '$/domain/model/userModel';
 import { userModel } from '$/domain/model/userModel';
 import { userRepo } from '$/domain/repository/userRepo';
@@ -11,7 +11,7 @@ export const userUseCase = {
       if (user !== null) return user;
 
       const newUser = userModel.create(jwtUser);
-      await userRepo.save(tx, newUser);
+      await userRepo.create(tx, newUser);
 
       return newUser;
     }),

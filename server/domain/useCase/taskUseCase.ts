@@ -1,6 +1,6 @@
 import { taskRepo } from '$/domain/repository/taskRepo';
 import { transaction } from '$/service/prismaClient';
-import type { PrismaClient } from '@prisma/client';
+import type { PrismaClient, Prisma } from '@prisma/client';
 
 export const taskUseCase = {
   create: (user: { id: string; name: string; }, title: string, content: string) =>
