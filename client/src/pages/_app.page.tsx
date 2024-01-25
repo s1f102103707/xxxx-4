@@ -6,10 +6,10 @@ import { useEffect } from 'react';
 import { gaPageview } from 'src/utils/gtag';
 import { supabase } from 'src/utils/supabase';
 import '../styles/globals.css';
-import { AuthLoader } from './@components/AuthLoader';
+import { AuthLoader } from 'src/components/AuthLoader';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const SafeHydrate = dynamic(() => import('../components/SafeHydrate'), { ssr: false });
+  const SafeHydrate = dynamic(() => import('src/components/SafeHydrate'), { ssr: false });
   const router = useRouter();
 
   useEffect(() => {
