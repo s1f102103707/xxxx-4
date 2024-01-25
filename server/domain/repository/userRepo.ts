@@ -11,7 +11,7 @@ const toModel = (prismaUser: User): UserModel => ({
 export const userRepo = {
   create: async (tx: Prisma.TransactionClient, newUser: NewUser) => {
     const user = await tx.user.create({
-      data: newUser
+      data: { ...newUser, createdAt: new Date() }
     });
     return toModel(user);
   },
