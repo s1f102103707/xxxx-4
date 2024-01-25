@@ -8,26 +8,36 @@ import styles from './index.module.css';
 
 const Home = () => {
   const [user] = useAtom(userAtom);
-  const [users, setUsers] = useState([]);
+  const [tasks, setTasks] = useState([]);
 
-  const fetchUsers = async () => {
-    const fetchedUsers = await apiClient.api.public.users.$get().catch(returnNull);
+  const fetchTasks = async () => {
+    const fetchedTasks = await apiClient.api.public.tasks.$get().catch(returnNull);
 
-    if (fetchedUsers) setUsers(fetchedUsers);
+    if (fetchedTasks) setTasks(fetchedTasks);
   };
 
   useEffect(() => {
-    fetchUsers();
+    fetchTasks();
   }, []);
+
+  const createTask = async () => {
+    const newTask = {
+      title: "データベース設計",
+      content: "イベント、ユーザー、カレンダー、招待などのエンティティに関するデータベーススキーマを設計します。正規化を行い、必要なインデックスを設定してパフォーマンスを最適化します。"
+    };
+    await apiClient.api.private.tasks.$post({ body: newTask }).catch(returnNull);
+    await fetchTasks();
+  };
 
   return (
     <>
       <BasicHeader user={user} />
       <div className={styles.container}>
-        <h1>ユーザー一覧</h1>
+        <h1>タスク一覧</h1>
+        <button onClick={createTask}>新しいタスクを追加</button>
         <ul>
-          {users.map((user) => (
-            <li key={user.id}>{user.name} ({user.email})</li>
+          {tasks.map((task) => (
+            <li key={task.id}>{task.title} - {task.content}</li>
           ))}
         </ul>
       </div>
